@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>管理页面 - 首页</title>
+		<meta name="viewport" content="width=800">
+		<meta name="MobileOptimized" content="800" /> 
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="Description" content="">
+		<link rel="stylesheet" href="../styles/ui.css" media="all" />
+		
+		<!--[if lt IE9]> 
+			<script src="../scripts/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<?php
+			echo "<header>";
+			echo "<h1>音乐中心后台管理</h1>";
+			echo "<div id='loginfo'>";
+			include("conn.php"); 
+			adminlogincheck();
+			echo "</div>";
+			echo "</header>";
+
+			$page=!empty($_GET['page']) ? intval($_GET['page']) :1; 
+			$pagesize=10;
+			$numq=mysql_query("select * from bk_staff");
+			$num=mysql_num_rows($numq);
+			$pagenum=ceil($num/$pagesize); 
+			$offset=($page-1)*$pagesize;
+			$sql="select * from bk_staff where s_right<>4 order by s_id limit $offset, $pagesize";  
+			$query=mysql_query($sql);  
+
+			if (empty($num)) {
+				$pagenum=1;
+				echo "无记录";
+				echo "<hr>";
+			}
+
+			If($page>$pagenum) echo "<script>alert('无法找到该页'); location.href='index.php'</script>";
+		?>
+
+		<div class="nav1"></div>
+		<div id="main">
+			<table id="stuff">
+				<caption><span>人员管理</span> <a href="add.php">添加用户</a></caption>
+				<tr id="stuffitem">
+					<th>序号</th>
+					<th>用户名</th>
+					<th>姓名</th>
+					<th>角色</th>
+					<th>部门</th>
+					<th>操作</th>
+				</tr>
+				<?php
+					$n=10*($page-1)+1;
+					while($rs=mysql_fetch_array($query))  {
+						
+						$brief1=$rs['s_name'].nl2br('\n')."用户名：".$rs['s_username'].nl2br('\n')."重置密码为123456？";
+						$brief2=$rs['s_name'].nl2br('\n')."用户名：".$rs['s_username'].nl2br('\n')."确定删除用户？";
+						echo "<tr>";
+						echo "<td class='number'>".$n."</td>";
+						echo "<td>".$rs['s_username']."</td>"; 
+						echo "<td>".$rs['s_name']."</td>";
+						echo "<td>".$rs['s_rtitle']."</td>";
+						echo "<td>".$rs['s_depname']."</td>";
+						?>
+						<td><a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a></td>
+						</tr>
+						<?php
+						$n++;
+					}
+				?>
+				<tr>
+					<td colspan="6">
+						<?php
+							if ($page!=1) echo "<a href='index.php?page=".($page-1)."'>上一页</a> ";
+
+							if ($pagenum<=10) {
+								for($i=1;$i<=$pagenum;$i++) {
+								   $show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+								   echo $show." ";
+								}
+							} 
+
+							if ($pagenum==11) {
+								if ($page<=6) {
+									for($i=1; $i<=11;$i++) {
+										$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+										echo $show." ";
+									}
+								} 
+
+								if ($page>6) {
+									echo "<a href='index.php?page=1'>1</a> ... ";
+									for($i=$page-4; $i<=11;$i++) {
+										$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+										echo $show." ";
+									}	
+								}
+							}
+
+							if ($pagenum>11) {
+								if ($page<=5) {
+									for($i=1; $i<=10;$i++) {
+										$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+										echo $show." ";
+									}
+									echo "... <a href='index.php?page=".$pagenum."'>".$pagenum."</a>";
+								} 
+
+								if ($page==6) {
+									echo "<a href='index.php?page=1'>1</a> ";
+									if ($pagenum<=$page+4){
+										for($i=$page-4; $i<=$pagenum;$i++) {
+											$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+											echo $show." ";
+										}
+									} elseif($pagenum==$page+5) {
+										for($i=$page-4; $i<=$page+4;$i++) {
+												$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+												echo $show." ";
+										}
+										echo " <a href='index.php?page=".$pagenum."'>".$pagenum."</a>";
+									} else {
+										for($i=$page-4; $i<=$page+4;$i++) {
+											$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+											echo $show." ";
+										}
+										echo " ... <a href='index.php?page=".$pagenum."'>".$pagenum."</a>";
+									}
+								}
+
+								if ($page>6) {
+									echo "<a href='index.php?page=1'>1</a> ... ";
+									if ($pagenum<=$page+4) {
+										for($i=$page-4; $i<=$pagenum;$i++) {
+											$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+											echo $show." ";
+										}
+									} elseif($pagenum==$page+5) {
+										for($i=$page-4; $i<=$page+4;$i++) {
+											$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+											echo $show." ";
+										}
+										echo " <a href='index.php?page=".$pagenum."'>".$pagenum."</a>";
+									} else {
+										for($i=$page-4; $i<=$page+4;$i++) {
+											$show=($i!=$page)?"<a href='index.php?page=".$i."'>$i</a>":"<b>$i</b>";
+											echo $show." ";
+										}
+										echo " ... <a href='index.php?page=".$pagenum."'>".$pagenum."</a>";
+									}
+								}
+							} 
+
+							if ($page!=$pagenum) echo " <a href='index.php?page=".($page+1)."'>下一页</a>";
+
+							if (($pagenum==11 && $page>6) || $pagenum>11) {
+								?>
+								<form action="index.php" method="get">
+									<input type="text" name="page">
+									<input type="submit" value="go">
+								</form>
+								<?php
+							}
+						?>
+					</td>
+				</tr>
+			</table>
+
+			<a href="issuegroup.php">选题组</a> <a href="createissuegroup.php">创建选题组</a>
+		</div>
+
+		
+	</body>
+</html>
+
