@@ -32,7 +32,7 @@ Only administrators can has the right to use this function.
 
 - Then open the browser and type `localhost/bk/index.php`. This will open the booking page. This page can be accessed by anyone with a visitor identity.
 
-- To enter user management console, there is a link on the booking page.  You need an administrator account to log in.  Try **admin** for username and **a123456** for password.
+- To enter user management console, there is a link on the booking page.  You need an administrator account to log in.  Try **admin** for username and **123456a** for password.
 
 - To access the memo board, type `localhost/bk/jfcalendar/calendar.php`.
 
