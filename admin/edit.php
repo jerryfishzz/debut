@@ -133,14 +133,18 @@
 							<br>
 							<span class="subformitem">部门：</span>
 							<select name="dep" id="dep">
-								<option value="1" <?php echo $selected=($row['s_dep']==1)? "selected": ""; ?>>融媒体部</option>
-								<option value="2" <?php echo $selected=($row['s_dep']==2)? "selected": ""; ?>>办公室</option>
-								<option value="3" <?php echo $selected=($row['s_dep']==3)? "selected": ""; ?>>资讯采编部</option>
-								<option value="4" <?php echo $selected=($row['s_dep']==4)? "selected": ""; ?>>策划部</option>
-								<option value="5" <?php echo $selected=($row['s_dep']==5)? "selected": ""; ?>>音乐节目部</option>
-								<option value="6" <?php echo $selected=($row['s_dep']==6)? "selected": ""; ?>>都市节目部</option>
-								<option value="7" <?php echo $selected=($row['s_dep']==7)? "selected": ""; ?>>音乐中心</option>
-								<option value="8" <?php echo $selected=($row['s_dep']==8)? "selected": ""; ?>>系统</option>
+								<?php
+								$sql3 = "SELECT `depid`, `depname`
+									FROM `bk_departments`
+									ORDER BY `depname`";
+								$query3 = mysql_query($sql3);
+								while ($result3 = mysql_fetch_array($query3)) {
+									?>
+									<option value="<?php echo $result3['depif']; ?>" <?php echo $selected=($row['s_dep'] ==
+									 $result3['depid'])? "selected": ""; ?>><?php echo $result3['depname']; ?></option>
+									<?php
+								};
+								?>
 							</select>　<span id="pDep"></span>
 							<br><br>
 							<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
