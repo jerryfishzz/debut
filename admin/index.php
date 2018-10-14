@@ -20,18 +20,18 @@
 
 	<body>
 		<?php
-			echo "<header>";
-			echo "<h1>音乐中心后台管理</h1>";
-			echo "<div id='loginfo'>";
+			// echo "<header>";
+			// echo "<h1>音乐中心后台管理</h1>";
+			// echo "<div id='loginfo'>";
 			include("conn.php"); 
 			adminlogincheck();
-			echo "</div>";
-			echo "</header>";
+			// echo "</div>";
+			// echo "</header>";
 
 			$page=!empty($_GET['page']) ? intval($_GET['page']) :1; 
 			$pagesize=10;
 
-			if($_GET['do']) {
+			if (isset($_GET['do'])) {
 				if($_GET['do'] == 'dep') {
 					$sqlPag = "SELECT `depid`, `depcode`, `depname`
 					FROM `bk_departments`";
@@ -48,9 +48,9 @@
 			$pagenum=ceil($num/$pagesize); 
 			$offset=($page-1)*$pagesize;
 
-			if ($_GET) {
+			if (isset($_GET['do'])) {
 				if ($_GET['do'] == 'dep') {
-					$sql="SELECT `depcode`, `depname`
+					$sql="SELECT `depid`, `depcode`, `depname`
 						FROM `bk_departments`
 						ORDER BY depname
 						LIMIT $offset, $pagesize";
@@ -81,14 +81,14 @@
 		<div id="main">
 			<table id="stuff">
 				<?php
-				if($_GET) {
+				if(isset($_GET['do'])) {
 					if ($_GET['do'] == 'dep') {
 						?>
 						<caption><span>部门管理</span> <span><a href="/admin/index.php">人员管理</a></span> <a href="add.php">添加部门</a></caption>
 						<tr id="stuffitem">
 						<th>序号</th>
-						<th>部门代号</th>
 						<th>部门</th>
+						<th>部门代号</th>
 						<th>操作</th>
 						<?php
 					} else {
@@ -114,12 +114,20 @@
 				<?php
 				$n=10*($page-1)+1;
 				while($rs=mysql_fetch_array($query))  {
-					if($_GET) {
+					if(isset($_GET['do'])) {
 						if ($_GET['do'] == "dep") {
 							echo "<tr>";
 							echo "<td class='number'>".$n."</td>";
-							echo "<td>".$rs['depcode']."</td>"; 
 							echo "<td>".$rs['depname']."</td>";
+							echo "<td>".$rs['depcode']."</td>"; 
+
+							?>
+							<td>
+								<a href="edit.php?do=dep&id=<?php echo $rs['depid']; ?>">编辑</a> 
+								<a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a>
+							</td>
+							</tr>
+							<?php
 						} else {
 							header("location:/admin/index.php");
 							exit();
@@ -134,12 +142,13 @@
 						echo "<td>".$rs['s_name']."</td>";
 						echo "<td>".$rs['s_rtitle']."</td>";
 						echo "<td>".$rs['s_depname']."</td>";
+
+						?>
+						<td><a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a></td>
+						</tr>
+						<?php
 					}
-					
-					?>
-					<td><a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a></td>
-					</tr>
-					<?php
+
 					$n++;
 				}
 				?>
@@ -245,6 +254,10 @@
 
 
 			</table>
+			
+			<?php
+			echo "<br><br><br><br>".$page."<br>";
+			?>
 
 			<a href="issuegroup.php">选题组</a> <a href="createissuegroup.php">创建选题组</a>
 		</div>
