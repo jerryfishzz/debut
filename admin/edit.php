@@ -29,7 +29,7 @@
 			echo "</div>";
 			echo "</header>";
 
-			if(isset($_POST['name']) && isset($_POST['right']) && isset($_POST['dep'])) {
+			if(isset($_POST['name']) && isset($_POST['dep'])) {
 				
 				$status=true;
 				$right=$_POST['right'];
@@ -56,63 +56,41 @@
 					exit();
 				}
 				
-				switch ($right) {
-					case 1:
-						$s_rtitle="管理员";
-						break;
-					case 2:
-						$s_rtitle="用户";
-						break;
-					case 3:
-						$s_rtitle="停用";
-						break;
-					default:
-						$status=false;
-						echo "<script>alert('需要为用户选择一个角色。'); history.back();</script>";
-						exit();
-				}
-				
-				switch ($dep) {
-					case 1:
-						$depname="融媒体部";
-						$depcode = "rmt";
-						break;
-					case 2:
-						$depname="办公室";
-						$depcode = "bgs";
-						break;
-					case 3:
-						$depname="资讯采编部";
-						$depcode = "zx";
-						break;
-					case 4:
-						$depname="策划部";
-						$depcode = "ch";
-						break;
-					case 5:
-						$depname="音乐节目部";
-						$depcode = "yyjmb";
-						break;
-					case 6:
-						$depname="都市节目部";
-						$depcode = "ds";
-						break;
-					case 7:
-						$depname="音乐中心";
-						$depcode = "yyzx";
-						break;
-					case 8:
-						$depname="系统";
-						$depcode = "xt";
-						break;
-					default:
-						$status=false;
-						echo "<script>alert('需要为用户选择一个部门。'); history.back();</script>";
-						exit();
-				}
-				
-				if($status==true) {
-					$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
+				if (isset($_POST['right'])) {
+					switch ($right) {
+						case 1:
+							$s_rtitle="管理员";
+							break;
+						case 2:
+							$s_rtitle="用户";
+							break;
+						case 3:
+							$s_rtitle="停用";
+							break;
+						default:
+							$status=false;
+							echo "<script>alert('需要为用户选择一个角色。'); history.back();</script>";
+							exit();
+					}
+					
+					$sqlPostDep = "SELECT `depcode`, `depname` 
+						FROM `bk_departments` 
+						WHERE `depid` = ". $dep;
+					$queryPostDep = mysql_query($sqlPostDep);
+					$rowPostDep = mysql_fetch_array($queryPostDep);
+
+					$depname = $rowPostDep['depname'];
+					$depcode = $rowPostDep['depcode'];
+
+					if($status==true) {
+						$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
+						mysql_query($sql2);
+						echo "<script>alert('修改成功。');</script>";
+					}
+				} else {
+					$sql2="UPDATE `bk_departments` 
+						SET `depname`='$name' 
+						WHERE `depid` = " . $_GET['id'];
 					mysql_query($sql2);
 					echo "<script>alert('修改成功。');</script>";
 				}
@@ -177,7 +155,7 @@
 									$query3 = mysql_query($sql3);
 									while ($result3 = mysql_fetch_array($query3)) {
 										?>
-										<option value="<?php echo $result3['depif']; ?>" <?php echo $selected=($row['s_dep'] ==
+										<option value="<?php echo $result3['depid']; ?>" <?php echo $selected=($row['s_dep'] ==
 										$result3['depid'])? "selected": ""; ?>><?php echo $result3['depname']; ?></option>
 										<?php
 									};

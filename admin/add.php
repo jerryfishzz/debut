@@ -31,42 +31,75 @@
 			</div>
 		</header>
 
-		<!--添加用户-->
-		<div class="nav1"></div>
-		<div id="main">
-			<div id="subform">
-				<span class="subformtitle">添加用户</span>
-				<br><br>
-				<form action="getuser.php" method="post" id="adduserpost">
-					<span class="subformitem">姓名：</span>
-					<input type="text" name="name" class="inputstyle" id="name">　<span id="pName"></span>
-					<br>
-					<span class="subformitem">用户名：</span>
-					<input type="text" name="username" class="inputstyle" id="username">　<span id="pUsername"></span>
-					<br>
-					<span class="subformitem">权限：</span>
-					<select name="userright" id="userright">
-						<option value="1">管理员</option>
-						<option value="2">用户</option>
-						<option value="3">停用</option>
-					</select>　<span id="pUserright"></span>
-					<br>
-					<span class="subformitem">部门：</span>
-					<select name="dep" id="dep">
-						<option value="1">融媒体部</option>
-						<option value="2">办公室</option>
-						<option value="3">资讯采编部</option>
-						<option value="4">策划部</option>
-						<option value="5">音乐节目部</option>
-						<option value="6">都市节目部</option>
-						<option value="7">音乐中心</option>
-						<option value="8">系统</option>
-					</select>　<span id="pDep"></span>
+		<?php
+		if (isset($_GET['do'])) {
+			if ($_GET['do'] == 'dep') {
+				?>
+				<div class="nav1"></div>
+				<div id="main">
+					<div id="subform">
+						<span class="subformtitle">添加部门</span>
+						<br><br>
+						<form action="getuser.php" method="post" id="adduserpost">
+							<span class="subformitem">部门名称：</span>
+							<input type="text" name="name" class="inputstyle" id="name">　<span id="pName"></span>
+							<br>
+							<span class="subformitem">部门代码：</span>
+							<input type="text" name="username" class="inputstyle" id="username">　<span id="pUsername"></span>
+							<input type="hidden" name="dep" id="dep" value="dep" />
+							<br><br>
+							<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
+						</form>
+					</div>
+				</div>
+				<?php
+			} else {
+				header("location:/admin/index.php?do=dep");
+				exit();
+			}
+		} else {
+			?>
+			<!--添加用户-->
+			<div class="nav1"></div>
+			<div id="main">
+				<div id="subform">
+					<span class="subformtitle">添加用户</span>
 					<br><br>
-					<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
-				</form>
+					<form action="getuser.php" method="post" id="adduserpost">
+						<span class="subformitem">姓名：</span>
+						<input type="text" name="name" class="inputstyle" id="name">　<span id="pName"></span>
+						<br>
+						<span class="subformitem">用户名：</span>
+						<input type="text" name="username" class="inputstyle" id="username">　<span id="pUsername"></span>
+						<br>
+						<span class="subformitem">权限：</span>
+						<select name="userright" id="userright">
+							<option value="1">管理员</option>
+							<option value="2">用户</option>
+							<option value="3">停用</option>
+						</select>　<span id="pUserright"></span>
+						<br>
+						<span class="subformitem">部门：</span>
+						<select name="dep" id="dep">
+							<option value="1">融媒体部</option>
+							<option value="2">办公室</option>
+							<option value="3">资讯采编部</option>
+							<option value="4">策划部</option>
+							<option value="5">音乐节目部</option>
+							<option value="6">都市节目部</option>
+							<option value="7">音乐中心</option>
+							<option value="8">系统</option>
+						</select>　<span id="pDep"></span>
+						<br><br>
+						<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
+					</form>
+				</div>
 			</div>
-		</div>
+			<?php
+		}
+		?>
+		
+		
 	</body>
 </html>
 

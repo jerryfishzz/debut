@@ -36,7 +36,7 @@
 					$sqlPag = "SELECT `depid`, `depcode`, `depname`
 					FROM `bk_departments`";
 				} else {
-					header("location:/admin/index.php");
+					header("location:/admin/index.php&do=dep");
 					exit();
 				}
 			} else {
@@ -50,8 +50,9 @@
 
 			if (isset($_GET['do'])) {
 				if ($_GET['do'] == 'dep') {
-					$sql="SELECT `depid`, `depcode`, `depname`
-						FROM `bk_departments`
+					$sql="SELECT `depid`, `depcode`, `depname` 
+						FROM `bk_departments` 
+						WHERE `depid` <> 8 
 						ORDER BY depname
 						LIMIT $offset, $pagesize";
 				} else {
@@ -84,7 +85,7 @@
 				if(isset($_GET['do'])) {
 					if ($_GET['do'] == 'dep') {
 						?>
-						<caption><span>部门管理</span> <span><a href="/admin/index.php">人员管理</a></span> <a href="add.php">添加部门</a></caption>
+						<caption><span>部门管理</span> <span><a href="/admin/index.php">人员管理</a></span> <a href="add.php?do=dep">添加部门</a></caption>
 						<tr id="stuffitem">
 						<th>序号</th>
 						<th>部门</th>
@@ -92,7 +93,7 @@
 						<th>操作</th>
 						<?php
 					} else {
-						header("location:/admin/index.php");
+						header("location:/admin/index.php?do=dep");
 						exit();
 					}
 				} else {
@@ -115,6 +116,8 @@
 				$n=10*($page-1)+1;
 				while($rs=mysql_fetch_array($query))  {
 					if(isset($_GET['do'])) {
+						$brief2=$rs['depname'].nl2br('\n')."部门代码：".$rs['depcode'].nl2br('\n')."确定删除部门？";
+
 						if ($_GET['do'] == "dep") {
 							echo "<tr>";
 							echo "<td class='number'>".$n."</td>";
@@ -124,7 +127,7 @@
 							?>
 							<td>
 								<a href="edit.php?do=dep&id=<?php echo $rs['depid']; ?>">编辑</a> 
-								<a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a>
+								<a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['depid']; ?>&do=dep'}; return false;">删除</a>
 							</td>
 							</tr>
 							<?php
@@ -144,7 +147,11 @@
 						echo "<td>".$rs['s_depname']."</td>";
 
 						?>
-						<td><a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a></td>
+						<td>
+							<a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> 
+							<a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> 
+							<a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a>
+						</td>
 						</tr>
 						<?php
 					}
