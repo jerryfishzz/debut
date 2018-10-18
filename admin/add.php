@@ -48,7 +48,7 @@
 							<input type="text" name="username" class="inputstyle" id="username">　<span id="pUsername"></span>
 							<input type="hidden" name="dep" id="dep" value="dep" />
 							<br><br>
-							<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
+							<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php?do=dep'>返回首页</a>　<span id="pSuccess"></span>
 						</form>
 					</div>
 				</div>
