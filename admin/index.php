@@ -40,12 +40,17 @@
 					exit();
 				}
 			} else {
-				$sqlPag = "SELECT * FROM `bk_staff`";
+				$sqlPag = "SELECT `s_username` 
+					FROM `bk_staff`
+					WHERE `s_username` <> 'admin' AND `s_username` <> 'guest'";
 			}
 
 			$numq=mysql_query($sqlPag);
 			$num=mysql_num_rows($numq);
 			$pagenum=ceil($num/$pagesize); 
+
+			prePrintR($num);
+
 			$offset=($page-1)*$pagesize;
 
 			if (isset($_GET['do'])) {
