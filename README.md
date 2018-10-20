@@ -20,9 +20,9 @@ This is a monthly calendar.  Users can leave memos on day grids and the memos on
 
 ### **User Management Console**
 
-This is incomplete.  User management is finished while user assignment for memo board is not.
+This is complete.  
 
-Only administrators can has the right to use this function.
+Only administrators can has the right to use this module.
 
 ## Usage
 
@@ -32,7 +32,7 @@ Only administrators can has the right to use this function.
 
 - Then open the browser and type `localhost/bk/index.php`. This will open the booking page. This page can be accessed by anyone with a visitor identity.
 
-- To enter user management console, there is a link on the booking page.  You need an administrator account to log in.  Try **admin** for username and **123456a** for password.
+- To enter user management console, there is a link on the booking page.  You need an administrator account to log in.  Try **admin** for username and **123456** for password.
 
 - To access the memo board, type `localhost/bk/jfcalendar/calendar.php`.
 
