@@ -29,7 +29,7 @@
 			echo "</div>";
 			echo "</header>";
 
-			if(isset($_POST['name']) && isset($_POST['right']) && isset($_POST['dep'])) {
+			if(isset($_POST['name']) && isset($_POST['dep'])) {
 				
 				$status=true;
 				$right=$_POST['right'];
@@ -38,116 +38,136 @@
 				
 				if(preg_match('/^\s*$/', $name)) {
 					$status=false;
-					echo "<script>alert('姓名不能为空。'); history.back();</script>"; 
+					if ($_POST['dep'] == 'dep') {
+						echo "<script>alert('名称不能为空。'); history.back();</script>";
+					} else {
+						echo "<script>alert('姓名不能为空。'); history.back();</script>";
+					}
 					exit();
 				}
 
 				if(preg_match('/\s/', $name)) {
 					$status=false;
-					echo "<script>alert('姓名中不能有空格。'); history.back();</script>";
+					if ($_POST['dep'] == 'dep') {
+						echo "<script>alert('名称中不能有空格。'); history.back();</script>";
+					} else {
+						echo "<script>alert('姓名中不能有空格。'); history.back();</script>";
+					}
 					exit();
 				}
 				
-				switch ($right) {
-					case 1:
-						$s_rtitle="管理员";
-						break;
-					case 2:
-						$s_rtitle="用户";
-						break;
-					case 3:
-						$s_rtitle="停用";
-						break;
-					default:
-						$status=false;
-						echo "<script>alert('需要为用户选择一个角色。'); history.back();</script>";
-						exit();
-				}
-				
-				switch ($dep) {
-					case 1:
-						$depname="融媒体部";
-						$depcode = "rmt";
-						break;
-					case 2:
-						$depname="办公室";
-						$depcode = "bgs";
-						break;
-					case 3:
-						$depname="资讯采编部";
-						$depcode = "zx";
-						break;
-					case 4:
-						$depname="策划部";
-						$depcode = "ch";
-						break;
-					case 5:
-						$depname="音乐节目部";
-						$depcode = "yyjmb";
-						break;
-					case 6:
-						$depname="都市节目部";
-						$depcode = "ds";
-						break;
-					case 7:
-						$depname="音乐中心";
-						$depcode = "yyzx";
-						break;
-					case 8:
-						$depname="系统";
-						$depcode = "xt";
-						break;
-					default:
-						$status=false;
-						echo "<script>alert('需要为用户选择一个部门。'); history.back();</script>";
-						exit();
-				}
-				
-				if($status==true) {
-					$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
+				if (isset($_POST['right'])) {
+					switch ($right) {
+						case 1:
+							$s_rtitle="管理员";
+							break;
+						case 2:
+							$s_rtitle="用户";
+							break;
+						case 3:
+							$s_rtitle="停用";
+							break;
+						default:
+							$status=false;
+							echo "<script>alert('需要为用户选择一个角色。'); history.back();</script>";
+							exit();
+					}
+					
+					$sqlPostDep = "SELECT `depcode`, `depname` 
+						FROM `bk_departments` 
+						WHERE `depid` = ". $dep;
+					$queryPostDep = mysql_query($sqlPostDep);
+					$rowPostDep = mysql_fetch_array($queryPostDep);
+
+					$depname = $rowPostDep['depname'];
+					$depcode = $rowPostDep['depcode'];
+
+					if($status==true) {
+						$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
+						mysql_query($sql2);
+						echo "<script>alert('修改成功。');</script>";
+					}
+				} else {
+					$sql2="UPDATE `bk_departments` 
+						SET `depname`='$name' 
+						WHERE `depid` = " . $_GET['id'];
 					mysql_query($sql2);
 					echo "<script>alert('修改成功。');</script>";
 				}
 			}
 
 			if(!empty($_GET['id'])) { 
-				$sql = "select * from bk_staff where s_id=" .$_GET['id'] ;
-				$result = mysql_query($sql);
-				$row = mysql_fetch_array($result); 
-				?>
-				<div class="nav1"></div>
-				<div id="main">
-					<div id="subform">
-						<form action="" method="post" id="admineditpost">
-							<span class="subformtitle">用户名　<?php echo $row['s_username']; ?></span>
-							<br><br>
-							<span class="subformitem">姓名：</span>
-							<input type="text" name="name" class="inputstyle" id="name" value="<?php echo $row['s_name']; ?>">　<span id="pName"></span>
-							<br>
-							<span class="subformitem">权限：</span>
-							<select name="right" id="userright">
-								<option value="1" <?php echo $selected=($row['s_right']==1)? "selected": ""; ?>>管理员</option>
-								<option value="2" <?php echo $selected=($row['s_right']==2)? "selected": ""; ?>>用户</option>
-								<option value="3" <?php echo $selected=($row['s_right']==3)? "selected": ""; ?>>停用</option>
-							</select>　<span id="pUserright"></span>
-							<br>
-							<span class="subformitem">部门：</span>
-							<select name="dep" id="dep">
-								<option value="1" <?php echo $selected=($row['s_dep']==1)? "selected": ""; ?>>融媒体部</option>
-								<option value="2" <?php echo $selected=($row['s_dep']==2)? "selected": ""; ?>>办公室</option>
-								<option value="3" <?php echo $selected=($row['s_dep']==3)? "selected": ""; ?>>资讯采编部</option>
-								<option value="4" <?php echo $selected=($row['s_dep']==4)? "selected": ""; ?>>策划部</option>
-								<option value="5" <?php echo $selected=($row['s_dep']==5)? "selected": ""; ?>>音乐节目部</option>
-								<option value="6" <?php echo $selected=($row['s_dep']==6)? "selected": ""; ?>>都市节目部</option>
-								<option value="7" <?php echo $selected=($row['s_dep']==7)? "selected": ""; ?>>音乐中心</option>
-								<option value="8" <?php echo $selected=($row['s_dep']==8)? "selected": ""; ?>>系统</option>
-							</select>　<span id="pDep"></span>
-							<br><br>
-							<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
-						</form>
+				if (isset($_GET['do'])) {
+					if ($_GET['do'] == 'dep') {
+						$sql = "SELECT `depcode`, `depname` 
+						FROM `bk_departments` 
+						WHERE `depid` = " .$_GET['id'] ;
+						$result = mysql_query($sql);
+						$row = mysql_fetch_array($result); 
+						?>
+						<div class="nav1"></div>
+						<div id="main">
+							<div id="subform">
+								<form action="" method="post" id="admineditpost">
+									<span class="subformtitle">部门代码　<?php echo $row['depcode']; ?></span>
+									<br><br>
+									<span class="subformitem">名称：</span>
+									<input type="text" name="name" class="inputstyle" id="name" value="<?php echo $row['depname']; ?>">　<span id="pName"></span>
+									<input type="hidden" name="dep" value="dep" />
+									<span id="pDep"></span>
+									<br><br>
+									<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php?do=dep'>返回首页</a>　<span id="pSuccess"></span>
+								</form>
+							</div>
+						</div>
+						<?php
+					} else {
+						header("location:/admin/index.php?do=dep");
+						exit();
+					}
+				} else {
+					$sql = "select * from bk_staff where s_id=" .$_GET['id'] ;
+					$result = mysql_query($sql);
+					$row = mysql_fetch_array($result); 
+					?>
+					<div class="nav1"></div>
+					<div id="main">
+						<div id="subform">
+							<form action="" method="post" id="admineditpost">
+								<span class="subformtitle">用户名　<?php echo $row['s_username']; ?></span>
+								<br><br>
+								<span class="subformitem">姓名：</span>
+								<input type="text" name="name" class="inputstyle" id="name" value="<?php echo $row['s_name']; ?>">　<span id="pName"></span>
+								<br>
+								<span class="subformitem">权限：</span>
+								<select name="right" id="userright">
+									<option value="1" <?php echo $selected=($row['s_right']==1)? "selected": ""; ?>>管理员</option>
+									<option value="2" <?php echo $selected=($row['s_right']==2)? "selected": ""; ?>>用户</option>
+									<option value="3" <?php echo $selected=($row['s_right']==3)? "selected": ""; ?>>停用</option>
+								</select>　<span id="pUserright"></span>
+								<br>
+								<span class="subformitem">部门：</span>
+								<select name="dep" id="dep">
+									<?php
+									$sql3 = "SELECT `depid`, `depname`
+										FROM `bk_departments`
+										ORDER BY `depname`";
+									$query3 = mysql_query($sql3);
+									while ($result3 = mysql_fetch_array($query3)) {
+										?>
+										<option value="<?php echo $result3['depid']; ?>" <?php echo $selected=($row['s_dep'] ==
+										$result3['depid'])? "selected": ""; ?>><?php echo $result3['depname']; ?></option>
+										<?php
+									};
+									?>
+								</select>　<span id="pDep"></span>
+								<br><br>
+								<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
+							</form>
+						</div>
 					</div>
-				</div>
-				<?php
+					<?php
+				}
 			}
 		?>
 	</body>

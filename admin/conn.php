@@ -90,4 +90,12 @@
 		$content=htmlspecialchars($content, ENT_QUOTES);
 		return $content;
 	}
+
+	function prePrintR($print, $die=FALSE){
+		echo '<pre>';
+		print_r($print);
+		echo '</pre><hr>';
+	
+		if($die) die();
+	}
 ?>
