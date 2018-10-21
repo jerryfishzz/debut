@@ -20,13 +20,13 @@
 
 	<body>
 		<?php
-			// echo "<header>";
-			// echo "<h1>音乐中心后台管理</h1>";
-			// echo "<div id='loginfo'>";
+			echo "<header>";
+			echo "<h1>音乐中心后台管理</h1>";
+			echo "<div id='loginfo'>";
 			include("conn.php"); 
 			adminlogincheck();
-			// echo "</div>";
-			// echo "</header>";
+			echo "</div>";
+			echo "</header>";
 
 			$page=!empty($_GET['page']) ? intval($_GET['page']) :1; 
 			$pagesize=10;

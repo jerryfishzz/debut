@@ -58,6 +58,10 @@
 				exit();
 			}
 		} else {
+			$sqlPostDep = "SELECT `depid`, `depname` 
+				FROM `bk_departments` 
+				ORDER BY CONVERT(`depname` USING gb2312)";
+			$queryPostDep = mysql_query($sqlPostDep);
 			?>
 			<!--添加用户-->
 			<div class="nav1"></div>
@@ -81,14 +85,11 @@
 						<br>
 						<span class="subformitem">部门：</span>
 						<select name="dep" id="dep">
-							<option value="1">融媒体部</option>
-							<option value="2">办公室</option>
-							<option value="3">资讯采编部</option>
-							<option value="4">策划部</option>
-							<option value="5">音乐节目部</option>
-							<option value="6">都市节目部</option>
-							<option value="7">音乐中心</option>
-							<option value="8">系统</option>
+							<?php
+							while ($rowPostDep = mysql_fetch_array($queryPostDep)) {
+								echo "<option value='{$rowPostDep['depid']}'>{$rowPostDep['depname']}</option>";
+							}
+							?>
 						</select>　<span id="pDep"></span>
 						<br><br>
 						<input type="submit" name="sub" id="sub" value="提交">　<a href='index.php'>返回首页</a>　<span id="pSuccess"></span>
