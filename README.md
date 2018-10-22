@@ -34,7 +34,7 @@ Only administrators can has the right to use this module.
 
 - To enter user management console, there is a link on the booking page.  You need an administrator account to log in.  Try **admin** for username and **123456** for password.
 
-- To access the memo board, type `localhost/bk/jfcalendar/calendar.php`.
+- To access the memo board, type `localhost/bk/calendar/calendar.php`.
 
 ## Comments from the author
 

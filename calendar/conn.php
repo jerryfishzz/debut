@@ -6,14 +6,13 @@
 	
 	//变量$id只是为了页面跳转回相应的选题组，和登录用户没有关系。
 	function logincheck() {
-		//echo "logincheck";
 		if ($_SESSION['flag']=="logged" && !empty($_COOKIE['sid'])) {
+			// prePrintR($_COOKIE['sid'], true);
 			$sql_user="select * from bk_staff where s_id=".$_COOKIE['sid'];
 			$rs_user=mysql_query($sql_user);
 			$row_user=mysql_fetch_array($rs_user);
+
 			if($row_user['s_right']==1 || $row_user['s_right']==2) {
-					
-				
 				//查看用户是否在任意选题组中有权限或者是否为管理员
 				if(!empty($row_user['s_inissues']) || $row_user['s_right']==1) {  
 
@@ -34,6 +33,7 @@
 				echo "<script>alert('用户已被停用。请联系管理员。'); document.location.href='login.php';</script>";
 			}
 		} else {
+			// prePrintR('test', true);
 			$sql_user="select * from bk_staff where s_right=4";
 			$rs_user=mysql_query($sql_user);
 			$row_user=mysql_fetch_array($rs_user);
@@ -148,4 +148,11 @@
 		$content=htmlspecialchars($content, ENT_QUOTES);
 		return $content;
 	}
-?>
+
+	function prePrintR($print, $die=FALSE){
+		echo '<pre>';
+		print_r($print);
+		echo '</pre><hr>';
+	
+		if($die) die();
+	}

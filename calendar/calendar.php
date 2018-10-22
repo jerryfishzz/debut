@@ -100,11 +100,50 @@
 
 		<div id="tabs">
 			
-			
+			<!--
+			<ul>
+				<?php
+					if(!empty($userIssueList)) {  //判断一下用户是否拥有任何选题组，这步应该在longincheck()的时候就可以把无选题组的用户被排除在外。
+						$i = 0;
+						foreach($userIssueList as $issue) {
+							?>
+							<li><a id="issueName<?php echo $i + 1;?>" class="issueName" rel="<?php echo $issue;?>" href="#tabs-1"><?php echo issueName($issue);?></a></li>  
+							<?php
+							$i++;
+						}
+					}
+				?>
+			</ul>
+			-->
 
-			
+			<div class="ui-widget-header ui-corner-all" style="padding:3px; vertical-align: middle; white-space:nowrap; overflow: hidden;">
+				<form>
+					<div id="radioset">
+						<?php
+							
+							if(!empty($userIssueList)) {  //判断一下用户是否拥有任何选题组，这步应该在longincheck()的时候就可以把无选题组的用户被排除在外。
+								$i = 1;
+								foreach($userIssueList as $issue) {
+									?>
+									<input type="radio" id="issueName<?php echo $i;?>" class="issueName" value="<?php echo $issue;?>" name="radio" <?php echo $i ==1 ? "checked='checked'" : "";?>><label for="issueName<?php echo $i;?>"><?php echo issueName($issue);?></label>
 
-			<div id="tabs-2"><!---->
+									<!--
+											<input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
+											<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
+											<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
+										
+									<button id="issueName<?php echo $i;?>" class="issueName" value=<?php echo $issue;?>><?php echo issueName($issue);?></button>  --><!--注意这些button的排列是按照选题组id的号从小到大排列的-->
+									<?php
+									$i++;
+								}
+							}
+							/**/
+						?>
+					</div>
+				</form>
+			</div>
+
+			<!--<div id="tabs-1">-->
 		
 				<div id="example" style="margin: auto; width:80%;">
 				
@@ -270,14 +309,17 @@
 				<div id="display-event-form" title="查看选题"></div>	
 				
 
-			</div><!----><!-- end example tab -->
+			<!--</div>--><!-- end example tab -->
 			<br>
 					
 		</div>
 
-		
+		<br><br>
+		<a href="/" class="button--white">预定系统</a>
+
+
 		<?php
-			/**/
+			/*
 			if(!empty($userIssueList)) {  //判断一下用户是否拥有任何选题组，这步应该在longincheck()的时候就可以把无选题组的用户被排除在外。
 				$i = 1;
 				foreach($userIssueList as $issue) {
@@ -287,7 +329,7 @@
 					$i++;
 				}
 			}
-			
+			*/
 		?>
 
 	</body>

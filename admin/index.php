@@ -67,8 +67,8 @@
 			} else {
 				$sql="SELECT * 
 					FROM `bk_staff` 
-					WHERE `s_right` <> 4 
-					ORDER BY s_id 
+					WHERE `s_username` <> 'guest' AND `s_username` <> 'admin' 
+					ORDER BY CONVERT(`s_depname` USING gb2312), CONVERT(`s_name` USING gb2312) 
 					LIMIT $offset, $pagesize";  	
 			}
 

@@ -28,6 +28,8 @@
 		<?php
 			include("conn.php");
 
+			prePrintR($_COOKIE['sid']);
+
 			// 此处判断post过来有没有值，无值则页面无反应，且拒绝0。
 			if (!empty($_POST["s_username"]) && !empty($_POST["s_password1"])) {	
 				
@@ -45,12 +47,17 @@
 					if($rs=mysql_fetch_array($query)) {
 						if($rs['s_right']!=3) {
 							$_SESSION['flag']="logged";
-							setcookie("name", $rs['s_name'], time()+3600);
-							setcookie("sid", $rs['s_id'], time()+3600);
+							setcookie("name", $rs['s_name'], time()+3600, '/');
+							setcookie("sid", $rs['s_id'], time()+3600, '/');
 							$sql_log="update bk_staff set s_logged=s_logged+1 where s_id=".$rs['s_id'];
 							if(mysql_query($sql_log)) {
-								header("Location:index.php");
-								exit();
+								if (isset($_POST['calendar'])) {
+									header("Location:/calendar/calendar.php");
+									exit();
+								} else {
+									header("Location:index.php");
+									exit();
+								}
 							}
 						} else {
 							$status=false;
@@ -74,6 +81,13 @@
 			<fieldset id="login">
 				用户名　<input class="con" type="text" name="s_username"><br><br>
 				　密码　<input class="con" type="password" name="s_password1"><br /><br>
+				<?php
+				if(isset($_GET['do']) && $_GET['do'] == "calendar") {
+					?>
+					<input type="hidden" name="calendar" value="calender">
+					<?php
+				}
+				?>
 				<input type="submit" value="登录" id="login_btn"> 
 			</fieldset>
 		</form>

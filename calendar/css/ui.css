@@ -37,3 +37,23 @@ body  {-webkit-text-size-adjust: none; -ms-touch-action: none;  -webkit-overflow
 	#pwchange legend {font-weight:bold; color:#000; font-size:18px;}
 
 .redword {color:red;}
+
+
+
+
+
+
+/* Newly added */
+.button--white {
+	display:block; 
+	border-radius:3px; 
+	/* float:right;  */
+	width:75px; 
+	background-color:white; 
+	/* color:#aaaaaa;  */
+	font-size:15px; 
+	height:28px; 
+	line-height:28px; 
+	margin-top:8px; 
+	border:solid 1px rgb(128, 128, 128);
+}
