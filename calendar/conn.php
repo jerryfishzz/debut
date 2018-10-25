@@ -15,8 +15,7 @@
 			if($row_user['s_right']==1 || $row_user['s_right']==2) {
 				//查看用户是否在任意选题组中有权限或者是否为管理员
 				if(!empty($row_user['s_inissues']) || $row_user['s_right']==1) {  
-
-					echo "<h1 id='pageAdditional'><a href='profile.php?id=".$_COOKIE['sid']."'>".$_COOKIE['name']."</a> 已登录&nbsp;&nbsp;<a id='inOutBack' href='logout.php'>退出</a></h1>";
+						echo "<h1 id='pageAdditional'><a href='profile.php?id=".$_COOKIE['sid']."'>".$_COOKIE['name']."</a> 已登录&nbsp;&nbsp;<a id='inOutBack' href='logout.php'>退出</a></h1>";
 				} else {
 					header("location:oops.php");
 					exit();
