@@ -8,69 +8,87 @@
 		<link rel="stylesheet" href="lib/google-code-prettify/prettify.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<link rel="stylesheet" href="css/customized.css" />
+
+		<meta name="viewport" content="width=800">
+		<meta name="MobileOptimized" content="800" /> 
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<meta name="Description" content="">
+		<link rel="stylesheet" href="../styles/ui.css" media="all" />
 	</head>
 
 	<body>
 		<?php 
+			echo "<header>";
+			echo "<h1>音乐中心后台管理</h1>";
+			echo "<div id='loginfo'>";
 			include("conn.php");
+			adminlogincheck();
+			echo "</div>";
+			echo "</header>";
 		?>
 
-		<div id="demo" class="container">
-			
-			<!--Multiple destinations-->
-			<h4 id="demo-multiple-destinations">Multiple destinations</h4>
-			<div class="row">
-				<div class="col-xs-5">
-					<select name="from[]" id="multi_d" class="form-control" size="26" multiple="multiple">
-						<?php
-							$classesOfDepts = array("1"=>"rmt", "2"=>"bgs", "3"=>"zx", "4"=>"ch", "5"=>"yyjmb", "6"=>"ds", "7"=>"yyzx", "8"=>"xt");
-							$sql_all = "select * from bk_staff";
-							$rs_all = mysql_query($sql_all);
-							while($row_all = mysql_fetch_array($rs_all)) {
-								echo "<option value='".$row_all['s_id']."' class='".$classesOfDepts[$row_all['s_dep']]."'>".$row_all['s_name']."</option>";
-							}
-						?>
-					</select>
-				</div>
-				
-				<!-- 中间的两排按钮 -->
-				<div class="col-xs-2">
-					<button type="button" id="multi_d_rightAll" class="btn btn-default btn-block" style="margin-top: 20px;"><i class="glyphicon glyphicon-forward"></i></button>
-					<button type="button" id="multi_d_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-					<button type="button" id="multi_d_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-					<button type="button" id="multi_d_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-					
-					<hr style="margin: 40px 0 60px;" />
-					
-					<button type="button" id="multi_d_rightAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-					<button type="button" id="multi_d_rightSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-					<button type="button" id="multi_d_leftSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-					<button type="button" id="multi_d_leftAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-				</div>
-				
-				<div class="col-xs-5">
-					<form method="post" action="process.php">
-						
-						选题表名称：<input type="text" name="groupName"><br>
-						选题表代码：<input type='text' name='groupCode'><br>  <!--不可重复，表名称的唯一值-->
+		<div class="nav1"></div>
 
-						<b>管理员</b>
-						<select name="to[]" id="multi_d_to" class="form-control" size="8" multiple="multiple">
+		<div id="main">
+			<div id="demo" class="container">
+				
+				<!--Multiple destinations-->
+				<h4 id="demo-multiple-destinations">Multiple destinations</h4>
+				<div class="row">
+					<div class="col-xs-5">
+						<select name="from[]" id="multi_d" class="form-control" size="26" multiple="multiple">
+							<?php
+								$classesOfDepts = array("1"=>"rmt", "2"=>"bgs", "3"=>"zx", "4"=>"ch", "5"=>"yyjmb", "6"=>"ds", "7"=>"yyzx", "8"=>"xt");
+								$sql_all = "select * from bk_staff";
+								$rs_all = mysql_query($sql_all);
+								while($row_all = mysql_fetch_array($rs_all)) {
+									echo "<option value='".$row_all['s_id']."' class='".$classesOfDepts[$row_all['s_dep']]."'>".$row_all['s_name']."</option>";
+								}
+							?>
 						</select>
+					</div>
+					
+					<!-- 中间的两排按钮 -->
+					<div class="col-xs-2">
+						<button type="button" id="multi_d_rightAll" class="btn btn-default btn-block" style="margin-top: 20px;"><i class="glyphicon glyphicon-forward"></i></button>
+						<button type="button" id="multi_d_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+						<button type="button" id="multi_d_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+						<button type="button" id="multi_d_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
 						
-						<br/><hr/><br/>
+						<hr style="margin: 40px 0 60px;" />
 						
-						<b>用户</b>
-						<select name="to_2[]" id="multi_d_to_2" class="form-control" size="8" multiple="multiple">
-						</select>
-						<input type="hidden" name="act" value="create">
-						<input type="submit">
-					</form>
+						<button type="button" id="multi_d_rightAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+						<button type="button" id="multi_d_rightSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+						<button type="button" id="multi_d_leftSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+						<button type="button" id="multi_d_leftAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+					</div>
+					
+					<div class="col-xs-5">
+						<form method="post" action="process.php">
+							
+							选题表名称：<input type="text" name="groupName"><br>
+							选题表代码：<input type='text' name='groupCode'><br>  <!--不可重复，表名称的唯一值-->
+
+							<b>管理员</b>
+							<select name="to[]" id="multi_d_to" class="form-control" size="8" multiple="multiple">
+							</select>
+							
+							<br/><hr/><br/>
+							
+							<b>用户</b>
+							<select name="to_2[]" id="multi_d_to_2" class="form-control" size="8" multiple="multiple">
+							</select>
+							<input type="hidden" name="act" value="create"><br><br>
+							<input type="submit">　<a href="issuegroup.php">返回首页</a>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-			
-		<a href="issuegroup.php">选题组</a> <a href="index.php">返回首页</a>
 
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>

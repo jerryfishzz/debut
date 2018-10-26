@@ -151,7 +151,7 @@
 									<?php
 									$sql3 = "SELECT `depid`, `depname`
 										FROM `bk_departments`
-										ORDER BY `depname`";
+										ORDER BY CONVERT(`depname` USING gb2312)";
 									$query3 = mysql_query($sql3);
 									while ($result3 = mysql_fetch_array($query3)) {
 										?>

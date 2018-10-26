@@ -20,13 +20,13 @@
 
 	<body>
 		<?php
-			// echo "<header>";
-			// echo "<h1>音乐中心后台管理</h1>";
-			// echo "<div id='loginfo'>";
+			echo "<header>";
+			echo "<h1>音乐中心后台管理</h1>";
+			echo "<div id='loginfo'>";
 			include("conn.php"); 
 			adminlogincheck();
-			// echo "</div>";
-			// echo "</header>";
+			echo "</div>";
+			echo "</header>";
 
 			$page=!empty($_GET['page']) ? intval($_GET['page']) :1; 
 			$pagesize=10;
@@ -49,7 +49,7 @@
 			$num=mysql_num_rows($numq);
 			$pagenum=ceil($num/$pagesize); 
 
-			prePrintR($num);
+			// prePrintR($num);
 
 			$offset=($page-1)*$pagesize;
 
@@ -67,8 +67,8 @@
 			} else {
 				$sql="SELECT * 
 					FROM `bk_staff` 
-					WHERE `s_right` <> 4 
-					ORDER BY s_id 
+					WHERE `s_username` <> 'guest' AND `s_username` <> 'admin' 
+					ORDER BY CONVERT(`s_depname` USING gb2312), CONVERT(`s_name` USING gb2312) 
 					LIMIT $offset, $pagesize";  	
 			}
 
@@ -90,7 +90,7 @@
 				if(isset($_GET['do'])) {
 					if ($_GET['do'] == 'dep') {
 						?>
-						<caption><span>部门管理</span> <span><a href="/admin/index.php">人员管理</a></span> <a href="add.php?do=dep">添加部门</a></caption>
+						<caption><span>部门管理</span> <span><a href="/admin/index.php">人员管理</a></span> <span><a href="issuegroup.php">选题组管理</a></span> <a href="add.php?do=dep">添加部门</a></caption>
 						<tr id="stuffitem">
 						<th>序号</th>
 						<th>部门</th>
@@ -103,7 +103,7 @@
 					}
 				} else {
 					?>
-					<caption><span>人员管理</span> <span><a href="/admin/index.php?do=dep">部门管理</a></span> <a href="add.php">添加用户</a></caption>
+					<caption><span>人员管理</span> <span><a href="/admin/index.php?do=dep">部门管理</a></span> <span><a href="issuegroup.php">选题组管理</a></span> <a href="add.php">添加用户</a></caption>
 					<tr id="stuffitem">
 					<th>序号</th>
 					<th>用户名</th>
@@ -263,15 +263,7 @@
 						?>
 					</td>
 				</tr>
-
-
 			</table>
-			
-			<?php
-			echo "<br><br><br><br>".$page."<br>";
-			?>
-
-			<a href="issuegroup.php">选题组</a> <a href="createissuegroup.php">创建选题组</a>
 		</div>
 
 		

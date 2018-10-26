@@ -1,4 +1,0 @@
-1. Admin can visit all issue lists and add, edit or delete any topic on a list.
-	a)JFCalendar
-		i. view all lists;
-		ii.  
