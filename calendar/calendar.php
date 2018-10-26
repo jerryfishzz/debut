@@ -99,7 +99,7 @@
 		<h1 id="pageTitle"></h1>
 			
 		
-		<div id="tabs" style="width:80%">
+		<div id="tabs">
 			
 			<!--
 			<ul>
@@ -146,7 +146,7 @@
 
 			<!--<div id="tabs-1">-->
 		
-				<div id="example" style="margin: auto;">
+				<div id="example" style="margin: auto; width:80%;">
 				
 					<br>
 					

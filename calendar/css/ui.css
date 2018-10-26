@@ -44,17 +44,19 @@ body  {-webkit-text-size-adjust: none; -ms-touch-action: none;  -webkit-overflow
 
 
 /* Newly added */
-/* .button--white {
+.button--white {
 	display:block; 
 	border-radius:3px; 
-	width:75px; 
+	width:auto; 
 	background-color:white; 
 	font-size:15px; 
 	height:28px; 
 	line-height:28px; 
 	margin-top:8px; 
 	border:solid 1px rgb(128, 128, 128);
-} */
+	text-align:center;
+	padding:10px 0;
+}
 
 
 

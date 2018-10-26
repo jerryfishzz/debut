@@ -82,7 +82,7 @@
 							<b>用户</b>
 							<select name="to_2[]" id="multi_d_to_2" class="form-control" size="8" multiple="multiple">
 							</select>
-							<input type="hidden" name="act" value="create">
+							<input type="hidden" name="act" value="create"><br><br>
 							<input type="submit">　<a href="issuegroup.php">返回首页</a>
 						</form>
 					</div>
