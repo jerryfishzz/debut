@@ -99,8 +99,7 @@
 		<h1 id="pageTitle"></h1>
 			
 		
-		<!-- <div id="sidebar">20</div> -->
-		<div id="tabs">
+		<div id="tabs" style="width:80%">
 			
 			<!--
 			<ul>

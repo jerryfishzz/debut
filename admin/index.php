@@ -49,7 +49,7 @@
 			$num=mysql_num_rows($numq);
 			$pagenum=ceil($num/$pagesize); 
 
-			prePrintR($num);
+			// prePrintR($num);
 
 			$offset=($page-1)*$pagesize;
 

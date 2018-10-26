@@ -91,12 +91,6 @@
 						} else {
 							echo "<td>已挂起</td>";
 						}
-						?>
-						<!--
-						<td><a href="edit.php?id=<?php echo $rs['s_id']; ?>">编辑</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief1;?>')) {document.location.href='reset.php?id=<?php echo $rs['s_id']; ?>'}; return false;">重置密码</a> <a href="#<?php echo $n;?>" onclick="if(confirm('<?php echo $brief2;?>')) {document.location.href='delete.php?id=<?php echo $rs['s_id']; ?>'}; return false;">删除</a></td>
-						</tr>
-						-->
-						<?php
 						$n++;
 					}
 				?>
