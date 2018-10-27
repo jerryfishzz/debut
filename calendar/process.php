@@ -106,7 +106,7 @@
 
 		if(!empty($sid)) {
 			if($sid == $originalSid) {
-				if($isMember) {
+				if($isMember || $loggerRight === 1) {
 					switch($loggerRight) {
 						case 1:
 							$rightValidate['e_editor'] = $editor;
@@ -163,6 +163,9 @@
 		return $m = in_array($s_id, $member) ? true : false;
 	}
 
+	/**
+	 * Is issue group admin or not
+	 */
 	function adminOrNot($id, $s_id) {
 		$id = (int)$id;
 		$s_id = (int)$s_id;
