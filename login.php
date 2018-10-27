@@ -47,8 +47,8 @@
 					if($rs=mysql_fetch_array($query)) {
 						if($rs['s_right']!=3) {
 							$_SESSION['flag']="logged";
-							setcookie("name", $rs['s_name'], time()+3600, '/');
-							setcookie("sid", $rs['s_id'], time()+3600, '/');
+							setcookie("name", $rs['s_name'], time()+3600);
+							setcookie("sid", $rs['s_id'], time()+3600);
 							$sql_log="update bk_staff set s_logged=s_logged+1 where s_id=".$rs['s_id'];
 							if(mysql_query($sql_log)) {
 								if (isset($_POST['calendar'])) {
