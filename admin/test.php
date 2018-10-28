@@ -49,4 +49,13 @@
 	echo "<br>";
 	echo $arrBStr."hereiam<br>";
 
+
+	echo "kakakakakakaka<br>";
+	$a = array(4,5,6,7,8);
+	$b = array_search(6, $a);
+	var_dump($b);
+	echo "<br>";
+	unset($a[$b]);
+	var_dump($a);
+
 ?>
