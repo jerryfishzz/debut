@@ -32,7 +32,6 @@
 			if(isset($_POST['name']) && isset($_POST['dep'])) {
 				
 				$status=true;
-				$right=$_POST['right'];
 				$name=$_POST['name'];
 				$dep=$_POST['dep'];
 				
@@ -56,7 +55,10 @@
 					exit();
 				}
 				
-				if (isset($_POST['right'])) {
+				if (isset($_POST['right']) &&isset($_POST['exdep'])) {
+					$right=$_POST['right'];
+					$exdep = $_POST['exdep'];
+
 					switch ($right) {
 						case 1:
 							$s_rtitle="管理员";
@@ -85,6 +87,8 @@
 					if($status==true) {
 						$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
 						mysql_query($sql2);
+						
+
 						echo "<script>alert('修改成功。');</script>";
 					}
 				} else {
@@ -148,6 +152,7 @@
 									<span class="subformitem">姓名：</span>
 									<input type="text" name="name" class="inputstyle" id="name" value="<?php echo $row['s_name']; ?>">　<span id="pName"></span>
 									<br>
+									<input type="hidden" name="exdep" value="<?php echo $row['s_dep'];?>">
 									<span class="subformitem">权限：</span>
 									<select name="right" id="userright">
 										<option value="2" <?php echo $selected=($row['s_right']==2)? "selected": ""; ?>>用户</option>
