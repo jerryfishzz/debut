@@ -55,7 +55,7 @@
 					exit();
 				}
 				
-				if (isset($_POST['right']) &&isset($_POST['exdep'])) {
+				if (isset($_POST['right']) && isset($_POST['exdep'])) {
 					$right=$_POST['right'];
 					$exdep = $_POST['exdep'];
 

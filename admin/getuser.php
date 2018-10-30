@@ -101,13 +101,6 @@
 				mysql_query($sql2);
 				$newId = mysql_insert_id();
 
-				// Add the newly added user into bk_departments
-				// $sql3 = "SELECT `s_id` 
-				// 	FROM `bk_staff` 
-				// 	WHERE `s_username` = " . $username;
-				// $query3 = mysql_query($sql3);
-				// $row3 = mysql_fetch_array($query3);
-
 				$sqlPostDep = "SELECT `depmembers` 
 					FROM `bk_departments` 
 					WHERE `depid` = ". $dep;
