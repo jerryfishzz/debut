@@ -75,7 +75,7 @@
 							exit();
 					}
 					
-					$sqlPostDep = "SELECT `depcode`, `depname` 
+					$sqlPostDep = "SELECT `depcode`, `depname`, `depmembers` 
 						FROM `bk_departments` 
 						WHERE `depid` = ". $dep;
 					$queryPostDep = mysql_query($sqlPostDep);
@@ -83,11 +83,43 @@
 
 					$depname = $rowPostDep['depname'];
 					$depcode = $rowPostDep['depcode'];
+					$depmembersStr = $rowPostDep['depmembers'];
+					$depmembersArr = explode(",", $depmembersStr);
 
 					if($status==true) {
+						// Update bk_staff
 						$sql2="update bk_staff set s_name='$name', s_right='$right', s_rtitle='$s_rtitle', s_dep='$dep', s_depcode='$depcode', s_depname='$depname' where s_id=" . $_GET['id'];
 						mysql_query($sql2);
 						
+						
+						// Update bk_departments
+						// Add member into current dept
+						$depmembersArr[] = $_GET['id'];
+						$depmembersStr = implode(",", $depmembersArr);
+						$sqlAddmember = "UPDATE `bk_departments` 
+							SET `depmembers` = '$depmembersStr' 
+							WHERE `depid` = ". $dep;
+						mysql_query($sqlAddmember);
+
+						// Delete member from ex dept
+						$sqlExDep = "SELECT `depmembers` 
+							FROM `bk_departments` 
+							WHERE `depid` = ". $exdep;
+						$queryExDep = mysql_query($sqlExDep);
+						$rowExDep = mysql_fetch_array($queryExDep);
+
+						$memberArr = explode(",", $rowExDep['depmembers']);
+						// prePrintR($memberArr, true);
+						$keyInMember = array_search($_GET['id'], $memberArr);
+						if ($keyInMember !== false) {
+							unset($memberArr[$keyInMember]);
+							$memberStr = implode(",", $memberArr);
+	
+							$sqlDeleteMember = "UPDATE `bk_departments` 
+							SET `depmembers` = '$memberStr' 
+							WHERE `depid` = ". $exdep;
+							mysql_query($sqlDeleteMember);
+						}
 
 						echo "<script>alert('修改成功。');</script>";
 					}
