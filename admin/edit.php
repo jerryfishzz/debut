@@ -125,7 +125,6 @@
 
 						$depmembersStr = $rowPostDep['depmembers'];
 						$depmembersArr = $depmembersStr ? explode(",", $depmembersStr) : array();
-						prePrintR($depmembersArr);
 
 						$depmembersArr[] = $_GET['id'];
 						$depmembersStr = implode(",", $depmembersArr);
