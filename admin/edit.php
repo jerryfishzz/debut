@@ -124,7 +124,8 @@
 						$rowPostDep = mysql_fetch_array($queryPostDep);
 
 						$depmembersStr = $rowPostDep['depmembers'];
-						$depmembersArr = explode(",", $depmembersStr);
+						$depmembersArr = $depmembersStr ? explode(",", $depmembersStr) : array();
+						prePrintR($depmembersArr);
 
 						$depmembersArr[] = $_GET['id'];
 						$depmembersStr = implode(",", $depmembersArr);
