@@ -18,5 +18,7 @@
 
 		<p>It's not my problem...</p>
 
+		<?php echo $_SERVER['DOCUMENT_ROOT'];?>
+
 	</body>
 </html>
