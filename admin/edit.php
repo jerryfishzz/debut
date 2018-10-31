@@ -92,15 +92,11 @@
 						mysql_query($sql2);
 						
 						
-						// Update bk_departments
-						// Add member into current dept
-						$depmembersArr[] = $_GET['id'];
-						$depmembersStr = implode(",", $depmembersArr);
-						$sqlAddmember = "UPDATE `bk_departments` 
-							SET `depmembers` = '$depmembersStr' 
-							WHERE `depid` = ". $dep;
-						mysql_query($sqlAddmember);
-
+						/**
+						 * Update bk_departments 
+						 * Need to delete first then add,
+						 * for the case when no modification on dept
+						 */
 						// Delete member from ex dept
 						$sqlExDep = "SELECT `depmembers` 
 							FROM `bk_departments` 
@@ -109,7 +105,6 @@
 						$rowExDep = mysql_fetch_array($queryExDep);
 
 						$memberArr = explode(",", $rowExDep['depmembers']);
-						// prePrintR($memberArr, true);
 						$keyInMember = array_search($_GET['id'], $memberArr);
 						if ($keyInMember !== false) {
 							unset($memberArr[$keyInMember]);
@@ -120,6 +115,23 @@
 							WHERE `depid` = ". $exdep;
 							mysql_query($sqlDeleteMember);
 						}
+
+						// Add member into current dept
+						$sqlPostDep = "SELECT `depmembers` 
+							FROM `bk_departments` 
+							WHERE `depid` = ". $dep;
+						$queryPostDep = mysql_query($sqlPostDep);
+						$rowPostDep = mysql_fetch_array($queryPostDep);
+
+						$depmembersStr = $rowPostDep['depmembers'];
+						$depmembersArr = explode(",", $depmembersStr);
+
+						$depmembersArr[] = $_GET['id'];
+						$depmembersStr = implode(",", $depmembersArr);
+						$sqlAddmember = "UPDATE `bk_departments` 
+							SET `depmembers` = '$depmembersStr' 
+							WHERE `depid` = ". $dep;
+						mysql_query($sqlAddmember);
 
 						echo "<script>alert('修改成功。');</script>";
 					}

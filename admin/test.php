@@ -57,5 +57,35 @@
 	echo "<br>";
 	unset($a[$b]);
 	var_dump($a);
+	echo "<br>";
 
+	
+	$strArr[] = 2018;
+	print_r($strArr);
+	echo "<br>";
+
+	$str2 = "";
+	if (!empty($str2)) {
+		echo "Blank is not empty by using empty()<br>";
+	} else {
+		echo "Blank is empty by using empty()<br>";
+	}
+
+	if ($str2) {
+		echo "Blank is not empty as a condition<br>";
+	} else {
+		echo "Blank is empty as a condition<br>";
+	}
+
+	$str3 = "a";
+	$str3Arr = explode(",", $str3);
+	var_dump($str3Arr);
+	echo "<br>";
+
+	$arr1 = array();
+	var_dump($arr1);
+	echo "<br>";
+	$arr1Str = implode(",", $arr1);
+	var_dump($arr1Str);
+	echo "<br>";
 ?>
