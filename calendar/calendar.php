@@ -293,20 +293,5 @@
 		<br><br>
 		<a href="/" class="button--white">预定系统</a>
 
-
-		<?php
-			/*
-			if(!empty($userIssueList)) {  //判断一下用户是否拥有任何选题组，这步应该在longincheck()的时候就可以把无选题组的用户被排除在外。
-				$i = 1;
-				foreach($userIssueList as $issue) {
-					?>
-					<button id="issueName<?php echo $i;?>" class="issueName" value=<?php echo $issue;?>><?php echo issueName($issue);?></button>  <!--注意这些button的排列是按照选题组id的号从小到大排列的-->
-					<?php
-					$i++;
-				}
-			}
-			*/
-		?>
-
 	</body>
 </html>
